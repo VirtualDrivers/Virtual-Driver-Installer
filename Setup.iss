@@ -59,7 +59,6 @@ Source: "input\Virtual_Display_Driver.cer"; DestDir: "{app}"; Flags: ignoreversi
 Source: "input\mttvdd.cat"; DestDir: "{app}"; Flags: ignoreversion; Components: VDD
 Source: "input\vdd_settings.xml"; DestDir: "{app}"; Flags: ignoreversion; Components: VDD
 Source: "dependencies\nefconw.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dependencies\lfn.exe"; Flags: dontcopy
 Source: "dependencies\getlist.bat"; Flags: dontcopy
 Source: "dependencies\gpulist.txt"; Flags: dontcopy
 Source: "dependencies\install.bat"; DestDir: "{app}"; Flags: ignoreversion
