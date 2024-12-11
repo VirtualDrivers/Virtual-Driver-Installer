@@ -204,7 +204,7 @@ begin
     MsgBox('Error: getlist.bat not found.', mbError, MB_OK);
     Exit;
   end;
-  if Exec(ExpandConstant('{tmp}getlist.bat'), '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+  if Exec(ExpandConstant('{localappdata}\VDDInstaller\getlist.bat'), '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
   begin
     if FileExists(ListPath) then
     begin
