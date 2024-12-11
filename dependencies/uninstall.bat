@@ -14,5 +14,6 @@ if defined vddPath (
     C:\VirtualDisplayDriver\nefconw.exe --remove-device-node --hardware-id ROOT\MttVDD --class-guid 4d36e968-e325-11ce-bfc1-08002be10318
     rmdir /s /q "C:\VirtualDisplayDriver"
 )
+rm dir /s /q "%USERPROFILE%\AppData\Local\VDDInstaller"
 exit
 
