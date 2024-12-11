@@ -8,10 +8,12 @@ for /f "tokens=2* delims=    " %%A in ('reg query "%regPath%" /v "%valueName%" 2
 if defined vddPath (
     set "nefconwPath=%vddPath%\nefconw.exe"
     "%nefconwPath%" --remove-device-node --hardware-id ROOT\MttVDD --class-guid 4d36e968-e325-11ce-bfc1-08002be10318
+    taskkill /F /IM VDDSysTray.exe
     rmdir /s /q "%vddPath%"
     reg delete "HKLM\SOFTWARE\MikeTheTech\VirtualDisplayDriver" /f >nul 2>&1
 ) else (
     C:\VirtualDisplayDriver\nefconw.exe --remove-device-node --hardware-id ROOT\MttVDD --class-guid 4d36e968-e325-11ce-bfc1-08002be10318
+    taskkill /F /IM VDDSysTray.exe
     rmdir /s /q "C:\VirtualDisplayDriver"
 )
 rm dir /s /q "%USERPROFILE%\AppData\Local\VDDInstaller"
