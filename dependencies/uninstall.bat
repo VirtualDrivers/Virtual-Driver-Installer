@@ -1,10 +1,18 @@
-::@echo off
-IF "%1"=="uninstall" (
-    rem Run uninstall commands
-    C:\VirtualDisplayDriver\nefconw.exe --remove-device-node --hardware-id ROOT\iddsampledriver --class-guid 4d36e968-e325-11ce-bfc1-08002be10318
-)
+@echo off
+set "regPath=HKLM\SOFTWARE\MikeTheTech\VirtualDisplayDriver"
+set "valueName=VDDPATH"
 
-IF "%1"=="" (
-    echo Missing argument! Valid arguments are "install" or "uninstall".
+for /f "tokens=2* delims=    " %%A in ('reg query "%regPath%" /v "%valueName%" 2^>nul') do (
+    set "vddPath=%%B"
+)
+if defined vddPath (
+    set "nefconwPath=%vddPath%\nefconw.exe"
+    "%nefconwPath%" --remove-device-node --hardware-id ROOT\MttVDD --class-guid 4d36e968-e325-11ce-bfc1-08002be10318
+    rmdir /s /q "%vddPath%"
+    reg delete "HKLM\SOFTWARE\MikeTheTech\VirtualDisplayDriver" /f >nul 2>&1
+) else (
+    C:\VirtualDisplayDriver\nefconw.exe --remove-device-node --hardware-id ROOT\MttVDD --class-guid 4d36e968-e325-11ce-bfc1-08002be10318
+    rmdir /s /q "C:\VirtualDisplayDriver"
 )
 exit
+

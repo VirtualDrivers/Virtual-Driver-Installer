@@ -1,5 +1,5 @@
-#define MyAppName "Virtual Display Driver by MTT"
-#define MyAppPublisher "MikeTheTech"
+#define MyAppName "Virtual Display Driver"
+#define MyAppPublisher "VirtualDisplay"
 #define MyAppVersion "1.0.0"
 #define MyAppSupportURL "https://github.com/itsmikethetech/Virtual-Display-Driver/issues"
 #define MyAppURL "https://vdd.mikethetech.com"
@@ -67,9 +67,6 @@ Source: "dependencies\fixxml.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "LICENSE_nefcon.txt"; Flags: dontcopy
 Source: "LICENSE_VDD.txt"; Flags: dontcopy
 Source: "input\Companion\VDDSysTray.exe"; DestDir: "{app}\Companion"; Components: CompanionApp
-Source: "input\Preview\DisplayPreview.exe"; DestDir: "{app}\Preview"; Components: DisplayPreview
-Source: "input\Preview\cursor.png"; DestDir: "{app}\Preview"; Components: DisplayPreview
-Source: "input\Preview\video.ico"; DestDir: "{app}\Preview"; Components: DisplayPreview
 Source: "input\scripts\changeres-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\ChangeVDDreslution
 Source: "input\scripts\refreshrate-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\ChangeVDDrefreshrate
 Source: "input\scripts\rotate-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\RotateVDD
@@ -80,18 +77,17 @@ Source: "input\scripts\toggle-VDD.ps1"; DestDir: "{app}\scripts"; Components: Sc
 Source: "input\scripts\onoff_at_loginout\enable_at_logon_disable_at_logoff.reg"; DestDir: "{app}\scripts\onoff_at_loginout"; Components: Scripts\EnLiDiLo
 Source: "input\scripts\onoff_at_loginout\psscripts.ini"; DestDir: "{app}\scripts\onoff_at_loginout"; Components: Scripts\EnLiDiLo
 Source: "input\scripts\onoff_at_loginout\vdd_e-li_d-lo.cmd"; DestDir: "{app}\scripts\onoff_at_loginout"; Components: Scripts\EnLiDiLo
-Source: "input\VDD_source\Virtual-Display-Driver-master.zip"; DestDir: "{app}\VDD_source"
 
 [Types]
+Name: "basic"; Description: "Basic install with driver and companion"; 
 Name: "full"; Description: "complete instal with all components"
 Name: "custom"; Description: "Let the user chose which components to install"; Flags: iscustom
 Name: "compact"; Description: "installs only the driver"
 
 
 [Components]
-Name: "VDD"; Description: "The core functionallity"; Types: full custom compact; Flags: fixed
-Name: "CompanionApp"; Description: "The systray app that can controll the Virtual Display"; Types: full custom
-Name: "DisplayPreview"; Description: "Display the content of the Virtual Display in a scalable window on physical monitor"; Types: full custom
+Name: "VDD"; Description: "The core functionallity"; Types: full custom compact basic; Flags: fixed
+Name: "CompanionApp"; Description: "The systray app that can controll the Virtual Display"; Types: full custom basic
 Name: "Scripts"; Description: "Installs the Modules Needed for all the scripts"; Types: full custom 
 Name: "Scripts\ChangeVDDreslution"; Description: "Change the VDD resolution from cli"; Types: full custom 
 Name: "Scripts\ChangeVDDrefreshrate"; Description: "Change the VDD's refreshrae from cli."; Types: full custom 
@@ -101,12 +97,10 @@ Name: "Scripts\MakeVDDPrimary"; Description: "A powershell that makes VDD primar
 Name: "Scripts\WinPasScript"; Description: "A script that triggers Win+p from cli"; Types: full custom 
 Name: "Scripts\ToggleVDDpower"; Description: "A script to tunr VDD on if odd or off if on"; Types: full custom 
 Name: "Scripts\EnLiDiLo"; Description: "A little hack to get VDD to enable on login and disable on logout."; Types: full custom 
-Name: "VDDsource"; Description: "The c++ source code for VDD"; Types: full custom
 
 [Icons]
 Name: "{group}\Companion"; Filename: "{app}\Companion\VDDSysTray.exe"; WorkingDir: "{app}"
-Name: "{group}\Display Previw"; Filename: "{app}\Preview\DisplayPreview.exe"; WorkingDir: "{app}\Preview"; HotKey: "ctrl+alt+p" ; IconFilename: "{app}\Preview\video.ico"
-Name: "{group}\Visit Homepage"; Filename: "http://www.example.com/"
+Name: "{group}\Visit Homepage"; Filename: "https://vdd.mikethetech.com"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
 
 [Code]
@@ -178,7 +172,6 @@ procedure EnsureFilesAndDirectoryExist();
 var
   Src, Dest: String;
 begin
-  ExtractTemporaryFile('lfn.exe');
   ExtractTemporaryFile('getlist.bat');
   ExtractTemporaryFile('gpulist.txt');
   if not DirExists(ExpandConstant('{localappdata}\VDDInstaller')) then
@@ -203,7 +196,6 @@ var
   ListPath: String;
 begin
   GPUComboBox.Items.Add('Best GPU(Auto)'); 
-  GPUComboBox.ItemIndex := 0;
   
   EnsureFilesAndDirectoryExist();
   ListPath := ExpandConstant('{localappdata}\VDDInstaller\gpulist.txt');
@@ -226,6 +218,7 @@ begin
       end;
     end;
   end;
+  GPUComboBox.ItemIndex := 0;
 end;
 
 function NextButtonClick(CurPageID: Integer): Boolean;
@@ -330,6 +323,7 @@ Root: HKLM; Subkey: "SOFTWARE\MikeTheTech\VirtualDisplayDriver"; ValueType: stri
 
 [Run]
 Filename: "{app}\install.bat"; Parameters: "{code:MergePar}"; WorkingDir: "{app}"; Flags: runascurrentuser runhidden waituntilterminated
+Filename: "{app}\CompanionApp.exe"; Description: "Launch Companion App"; Flags: nowait postinstall skipifsilent; Components: CompanionApp
 
 [UninstallRun]
-Filename: "{app}\uninstallSetup.bat"; Parameters: "uninstall"; Flags: runhidden
+Filename: "{app}\uninstall.bat"; Flags: runhidden
