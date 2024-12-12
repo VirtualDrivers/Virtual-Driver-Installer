@@ -1,6 +1,6 @@
 #define MyAppName "Virtual Display Driver"
 #define MyAppShortName "Virtual Display"
-#define MyAppPublisher "Virtual Display"
+#define MyAppPublisher "VirtualDisplay"
 #define MyAppVersion "1.0.0"
 #define MyAppSupportURL "https://github.com/itsmikethetech/Virtual-Display-Driver/issues"
 #define MyAppURL "https://vdd.mikethetech.com"
