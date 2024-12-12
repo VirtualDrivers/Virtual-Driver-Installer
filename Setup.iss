@@ -196,7 +196,7 @@ var
   I, ResultCode: Integer;
   ListPath: String;
 begin
-  GPUComboBox.Items.Add('Best GPU(Auto)'); 
+  GPUComboBox.Items.Add('Best GPU (Auto)'); 
   
   EnsureFilesAndDirectoryExist();
   ListPath := ExpandConstant('{localappdata}\VDDInstaller\gpulist.txt');
