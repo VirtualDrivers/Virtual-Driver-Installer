@@ -1,5 +1,6 @@
 #define MyAppName "Virtual Display Driver"
-#define MyAppPublisher "VirtualDisplay"
+#define MyAppShortName "Virtual Display"
+#define MyAppPublisher "Virtual Display"
 #define MyAppVersion "1.0.0"
 #define MyAppSupportURL "https://github.com/itsmikethetech/Virtual-Display-Driver/issues"
 #define MyAppURL "https://vdd.mikethetech.com"
@@ -17,8 +18,8 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppSupportURL}
 AppUpdatesURL={#MyAppURL}
 AppVersion={#MyAppVersion}
-AppComments=Gives Virtual Displays, Viewer, Control App, PS1 scripts
-AppContact=Contact us on MikeTheTech's Discord
+AppComments=Provides Virtual Displays, Viewer, Control Application, and PowerShell scripts
+AppContact=Contact us on at discord.mikethetech.com
 AppCopyright=Copyright (C) 2022-2024 MikeTheTech
 ArchitecturesInstallIn64BitMode=x64compatible
 ArchitecturesAllowed=x64compatible
@@ -79,28 +80,28 @@ Source: "input\scripts\onoff_at_loginout\psscripts.ini"; DestDir: "{app}\scripts
 Source: "input\scripts\onoff_at_loginout\vdd_e-li_d-lo.cmd"; DestDir: "{app}\scripts\onoff_at_loginout"; Components: Scripts\EnLiDiLo
 
 [Types]
-Name: "basic"; Description: "Basic install with driver and companion"; 
-Name: "full"; Description: "complete instal with all components"
-Name: "custom"; Description: "Let the user chose which components to install"; Flags: iscustom
-Name: "compact"; Description: "installs only the driver"
+Name: "basic"; Description: "Basic install with driver and companion app"; 
+Name: "full"; Description: "Complete installation with all components"
+Name: "custom"; Description: "Customize which components to install"; Flags: iscustom
+Name: "compact"; Description: "Compact installation with only the driver"
 
 
 [Components]
-Name: "VDD"; Description: "The core functionallity"; Types: full custom compact basic; Flags: fixed
-Name: "CompanionApp"; Description: "The systray app that can controll the Virtual Display"; Types: full custom basic
-Name: "Scripts"; Description: "Installs the Modules Needed for all the scripts"; Types: full custom 
-Name: "Scripts\ChangeVDDreslution"; Description: "Change the VDD resolution from cli"; Types: full custom 
-Name: "Scripts\ChangeVDDrefreshrate"; Description: "Change the VDD's refreshrae from cli."; Types: full custom 
-Name: "Scripts\RotateVDD"; Description: "Rotate the VD from cli"; Types: full custom 
-Name: "Scripts\ScaleVDD"; Description: "Scale VDD from cli"; Types: full custom 
-Name: "Scripts\MakeVDDPrimary"; Description: "A powershell that makes VDD primary display"; Types: full custom 
-Name: "Scripts\WinPasScript"; Description: "A script that triggers Win+p from cli"; Types: full custom 
-Name: "Scripts\ToggleVDDpower"; Description: "A script to tunr VDD on if odd or off if on"; Types: full custom 
-Name: "Scripts\EnLiDiLo"; Description: "A little hack to get VDD to enable on login and disable on logout."; Types: full custom 
+Name: "VDD"; Description: "Core functionality of the {#MyAppName}."; Types: full custom compact basic; Flags: fixed
+Name: "CompanionApp"; Description: "System tray application to control the {#MyAppName}."; Types: full custom basic
+Name: "Scripts"; Description: "Install modules required for all scripts."; Types: full custom 
+Name: "Scripts\ChangeVDDreslution"; Description: "Change the {#MyAppShortName}'s resolution via command line."; Types: full custom 
+Name: "Scripts\ChangeVDDrefreshrate"; Description: "Adjust the {#MyAppShortName}'s refresh rate via command line."; Types: full custom 
+Name: "Scripts\RotateVDD"; Description: "Rotate the {#MyAppShortName} via command line."; Types: full custom 
+Name: "Scripts\ScaleVDD"; Description: "Scale the {#MyAppShortName} via command line."; Types: full custom 
+Name: "Scripts\MakeVDDPrimary"; Description: "PowerShell script to set {#MyAppShortName} as the primary display."; Types: full custom 
+Name: "Scripts\WinPasScript"; Description: "Script to trigger Win+P via command lin.e"; Types: full custom 
+Name: "Scripts\ToggleVDDpower"; Description: "Script to toggle {#MyAppShortName}'s power on or off."; Types: full custom 
+Name: "Scripts\EnLiDiLo"; Description: "Automate enabling the {#MyAppName} on login and disabling on logout"; Types: full custom 
 
 [Icons]
 Name: "{group}\Companion"; Filename: "{app}\Companion\VDDSysTray.exe"; WorkingDir: "{app}"
-Name: "{group}\Visit Homepage"; Filename: "https://vdd.mikethetech.com"
+Name: "{group}\Visit Homepage"; Filename: "{#MyAppURL}"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
 
 [Code]
@@ -238,17 +239,17 @@ begin
   LicenseAfterPage := wpLicense;
   AddLicensePage('LICENSE_nefcon.txt');
   AddLicensePage('LICENSE_VDD.txt');
-  GPUSelectionPage := CreateCustomPage(LicenseAfterPage, 'Select GPU', 'Choose a GPU to bind to Virtual Display or leave it for automatic selection');
+  GPUSelectionPage := CreateCustomPage(LicenseAfterPage, 'Select Primary GPU', 'Choose a GPU to bind to Virtual Display or leave it for automatic selection');
   GPUComboBox := TComboBox.Create(WizardForm);
   GPUComboBox.Parent := GPUSelectionPage.Surface;
   GPUComboBox.Left := ScaleX(10);
   GPUComboBox.Top := ScaleY(20);
   GPUComboBox.Width := ScaleX(200);
   RunGetListAndPopulateGPUComboBox;
-  Page := CreateCustomPage(GPUSelectionPage.ID, 'Virtual Display Configuration', 'Choose how many virtual displays you want to add to your system.');
+  Page := CreateCustomPage(GPUSelectionPage.ID, '{#MyAppName} Configuration', 'Choose how many {#MyAppShortName}'s you want to add to your system.');
   MonitorsLabel := TLabel.Create(Page);
   MonitorsLabel.Parent := Page.Surface;
-  MonitorsLabel.Caption := 'Choose how many virtual displays you want to add to your system.'#13#10'A maximum of 4 displays is recommended.';
+  MonitorsLabel.Caption := 'Choose how many {#MyAppShortName}'s you want to add to your system.'#13#10'A maximum of four (4) displays is recommended.';
   MonitorsLabel.Left := 10;
   MonitorsLabel.Top := 10;
   MonitorsLabel.Width := Page.SurfaceWidth - 20;
