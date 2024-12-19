@@ -6,56 +6,40 @@
     <gpu>
         <friendlyname>default</friendlyname>
     </gpu>
+	<global>
+		<!--These are global refreshrates, any you add in here, will be replicated to all resolutions-->
+		<g_refresh_rate>60</g_refresh_rate>
+		<g_refresh_rate>90</g_refresh_rate>
+		<g_refresh_rate>120</g_refresh_rate>
+		<g_refresh_rate>144</g_refresh_rate>
+		<g_refresh_rate>165</g_refresh_rate>
+		<g_refresh_rate>244</g_refresh_rate>
+	</global>
     <resolutions>
         <resolution>
             <width>800</width>
             <height>600</height>
             <refresh_rate>30</refresh_rate>
-            <refresh_rate>60</refresh_rate>
-            <refresh_rate>90</refresh_rate>
-            <refresh_rate>120</refresh_rate>
-            <refresh_rate>144</refresh_rate>
-            <refresh_rate>165</refresh_rate>
         </resolution>
         <resolution>
             <width>1366</width>
             <height>768</height>
             <refresh_rate>30</refresh_rate>
-            <refresh_rate>60</refresh_rate>
-            <refresh_rate>90</refresh_rate>
-            <refresh_rate>120</refresh_rate>
-            <refresh_rate>144</refresh_rate>
-            <refresh_rate>165</refresh_rate>
         </resolution>
         <resolution>
             <width>1920</width>
             <height>1080</height>
             <refresh_rate>30</refresh_rate>
-            <refresh_rate>60</refresh_rate>
-            <refresh_rate>90</refresh_rate>
-            <refresh_rate>120</refresh_rate>
-            <refresh_rate>144</refresh_rate>
-            <refresh_rate>165</refresh_rate>
         </resolution>
         <resolution>
             <width>2560</width>
             <height>1440</height>
             <refresh_rate>30</refresh_rate>
-            <refresh_rate>60</refresh_rate>
-            <refresh_rate>90</refresh_rate>
-            <refresh_rate>120</refresh_rate>
-            <refresh_rate>144</refresh_rate>
-            <refresh_rate>165</refresh_rate>
         </resolution>
         <resolution>
             <width>3840</width>
             <height>2160</height>
             <refresh_rate>30</refresh_rate>
-            <refresh_rate>60</refresh_rate>
-            <refresh_rate>90</refresh_rate>
-            <refresh_rate>120</refresh_rate>
-            <refresh_rate>144</refresh_rate>
-            <refresh_rate>165</refresh_rate>
         </resolution>
     
         

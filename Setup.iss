@@ -1,7 +1,7 @@
 #define MyAppName "Virtual Display Driver"
 #define MyAppShortName "Virtual Display"
 #define MyAppPublisher "VirtualDisplay"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "24.12.24"
 #define MyAppSupportURL "https://github.com/itsmikethetech/Virtual-Display-Driver/issues"
 #define MyAppURL "https://vdd.mikethetech.com"
 #define InstallPath "C:\VirtualDisplayDriver"
@@ -48,15 +48,12 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 [Dirs]
 Name: "{app}\scripts"; Permissions: everyone-full
 Name: "{app}\Companion"; Permissions: everyone-full
-Name: "{app}\Preview"; Permissions: everyone-full
 Name: "{app}\scripts\onoff_at_loginout"; Permissions: everyone-full
-Name: "{app}\VDD_source"; Permissions: everyone-full
 Name: "{localappdata}\VDDInstaller"; Permissions: everyone-full
 
 [Files]
 Source: "input\MttVDD.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: VDD
 Source: "input\MttVDD.inf"; DestDir: "{app}"; Flags: ignoreversion; Components: VDD
-Source: "input\Virtual_Display_Driver.cer"; DestDir: "{app}"; Flags: ignoreversion; Components: VDD
 Source: "input\mttvdd.cat"; DestDir: "{app}"; Flags: ignoreversion; Components: VDD
 Source: "input\vdd_settings.xml"; DestDir: "{app}"; Flags: ignoreversion; Components: VDD
 Source: "dependencies\nefconw.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -246,10 +243,10 @@ begin
   GPUComboBox.Top := ScaleY(20);
   GPUComboBox.Width := ScaleX(200);
   RunGetListAndPopulateGPUComboBox;
-  Page := CreateCustomPage(GPUSelectionPage.ID, '{#MyAppName} Configuration', 'Choose how many {#MyAppShortName}'s you want to add to your system.');
+  Page := CreateCustomPage(GPUSelectionPage.ID, '{#MyAppName} Configuration', 'Choose how many {#MyAppShortName}s you want to add to your system.');
   MonitorsLabel := TLabel.Create(Page);
   MonitorsLabel.Parent := Page.Surface;
-  MonitorsLabel.Caption := 'Choose how many {#MyAppShortName}'s you want to add to your system.'#13#10'A maximum of four (4) displays is recommended.';
+  MonitorsLabel.Caption := 'Choose how many {#MyAppShortName}s you want to add to your system.'#13#10'A maximum of four (4) displays is recommended.';
   MonitorsLabel.Left := 10;
   MonitorsLabel.Top := 10;
   MonitorsLabel.Width := Page.SurfaceWidth - 20;
