@@ -5,8 +5,8 @@ param (
     [string]$InstallDir
 )
 $file1="$InstallDir\vdd_settings.xml"
-$file2="$InstallDir\utils\onoff_at_loginout\psscripts.ini"
-$file3="$InstallDir\utils\onoff_at_loginout\vdd_e-li_d-lo.cmd"
+$file2="$InstallDir\scripts\onoff_at_loginout\psscripts.ini"
+$file3="$InstallDir\scripts\onoff_at_loginout\vdd_e-li_d-lo.cmd"
 $file4="$InstallDir\uninstall.bat"
 
 # Define the replacement
