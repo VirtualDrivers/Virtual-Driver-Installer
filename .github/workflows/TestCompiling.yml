@@ -1,0 +1,41 @@
+name: Build Installer
+
+on:
+  workflow_dispatch: 
+  push:
+    branches:
+      - main 
+
+  pull_request: 
+    branches:
+      - main 
+
+jobs:
+  build:
+    name: Build the Inno Setup Installer
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare for testing (x64 only)
+        run: |
+          if (Test-Path -Path .\testing) {
+            Copy-Item -Path .\testing\* -Destination .\input -Recurse -Force
+          } else {
+            Write-Error "The 'testing' directory does not exist."
+          }
+        shell: pwsh
+
+      - name: Compile Installer
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        with:
+          path: Setup.iss
+          options: /O+
+
+      - name: Upload installer artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: installer
+          path: output/*.exe
+          if-no-files-found: error
