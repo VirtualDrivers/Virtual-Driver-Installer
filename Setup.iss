@@ -5,13 +5,14 @@
 #define MyAppSupportURL "https://github.com/itsmikethetech/Virtual-Display-Driver/issues"
 #define MyAppURL "https://vdd.mikethetech.com"
 #define InstallPath "C:\VirtualDisplayDriver"
+#define AppId "VirtualDisplayDriver"
 
 [Setup]
 //no network storage installs
 AllowUNCPath=False
 AlwaysShowGroupOnReadyPage=yes
 AppendDefaultDirName=False
-AppId={{85ECF661-C369-443D-846B-285CFB698447}
+AppId={#AppId}
 AppName={#MyAppName}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
@@ -112,7 +113,71 @@ var
   GPUList: TStringList;
   SelectedGPU: string;
   CurrentPageID: Integer; 
-  
+  IsAlreadyInstalled: Boolean;
+  ResultCode: Integer;
+
+function IsAppAlreadyInstalled(): Boolean;
+var
+  InstalledBy: string;
+begin
+  Result := RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\MikeTheTech\VirtualDisplayDriver', 'InstalledBy', InstalledBy);
+  if Result then
+    Log('App is already installed by: ' + InstalledBy)
+  else
+    Log('App is not installed');
+end;
+
+function GetUninstallString(): string;
+var
+  UninstallString: string;
+  RegPath: string;
+begin
+  RegPath := 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\' + '{#AppId}' + '_is1';
+
+  if RegQueryStringValue(HKEY_LOCAL_MACHINE, RegPath, 'UninstallString', UninstallString) then
+  begin
+    UninstallString := Trim(UninstallString);
+    if (Length(UninstallString) > 1) and (UninstallString[1] = '"') and (UninstallString[Length(UninstallString)] = '"') then
+    begin
+      UninstallString := Copy(UninstallString, 2, Length(UninstallString) - 2); 
+    end;
+    Result := UninstallString;
+  end
+  else
+  begin
+    Result := '';
+  end;
+end;
+
+
+function AskToUninstall(): Boolean;
+var
+  MsgResult: Integer;
+begin
+  MsgResult := MsgBox('{#MyAppName} is already installed. Would you like to uninstall it?', mbConfirmation, MB_YESNO);
+  Result := MsgResult = IDYES;
+end;
+
+function TriggerWindowsUninstall(): Boolean;
+var
+  UninstallString: string;
+  ExecResult: Boolean;
+begin
+  Result := False; 
+  UninstallString := GetUninstallString();
+
+  if UninstallString <> '' then
+  begin
+    ExecResult := Exec(UninstallString, '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
+    if ExecResult and (ResultCode = 0) then
+      Result := True; 
+  end
+  else
+  begin
+    MsgBox('Unable to locate uninstallation information in Windows registry.', mbError, MB_OK);
+  end;
+end;
+
 procedure CheckLicenseAccepted(Sender: TObject);
 begin
   WizardForm.NextButton.Enabled :=
@@ -283,18 +348,28 @@ var
   isSilent: Boolean;
 
 function InitializeSetup(): Boolean;
-var
-  j: Integer;
 begin
-  Result := True;
-  IsSilent := False;
-  for j := 1 to ParamCount do
+  Result := True;  
+
+  if IsAppAlreadyInstalled() then
   begin
-    if (CompareText(ParamStr(j), '/verysilent') = 0) or 
-       (CompareText(ParamStr(j), '/silent') = 0) then
+    if AskToUninstall() then
     begin
-      IsSilent := True;
-      Break;
+      if TriggerWindowsUninstall() then
+      begin
+        MsgBox('{#MyAppName} was successfully uninstalled. The setup will now restart.', mbInformation, MB_OK);
+        Result := True; 
+      end
+      else
+      begin
+        MsgBox('Failed to uninstall {#MyAppName} using Windows uninstaller. Setup will now exit.', mbError, MB_OK);
+        Result := False; 
+      end;
+    end
+    else
+    begin
+      MsgBox('Setup was canceled because {#MyAppName} is already installed.', mbInformation, MB_OK);
+      Result := False; 
     end;
   end;
 end;
@@ -303,7 +378,6 @@ procedure CurPageChanged(CurPageID: Integer);
 var
   I: Integer;
 begin
-  // Automatically accept licenses if running in silent mode
   if IsSilent then
   begin
     for I := 0 to GetArrayLength(LicenseAcceptedRadioButtons) - 1 do
@@ -318,6 +392,8 @@ end;
 Root: HKLM; Subkey: "SOFTWARE\MikeTheTech"; Flags: uninsdeletekeyifempty
 Root: HKLM; Subkey: "SOFTWARE\MikeTheTech\VirtualDisplayDriver"; Flags: uninsdeletekeyifempty
 Root: HKLM; Subkey: "SOFTWARE\MikeTheTech\VirtualDisplayDriver"; ValueType: string; ValueName: "VDDPATH"; ValueData: "{app}"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "SOFTWARE\MikeTheTech\VirtualDisplayDriver"; ValueType: string; ValueName: "InstalledBy"; ValueData: "Installer"; Flags: uninsdeletevalue
+
 
 [Run]
 Filename: "{app}\install.bat"; Parameters: "{code:MergePar}"; WorkingDir: "{app}"; Flags: runascurrentuser runhidden waituntilterminated
