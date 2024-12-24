@@ -397,7 +397,8 @@ Root: HKLM; Subkey: "SOFTWARE\MikeTheTech\VirtualDisplayDriver"; ValueType: stri
 
 [Run]
 Filename: "{app}\install.bat"; Parameters: "{code:MergePar}"; WorkingDir: "{app}"; Flags: runascurrentuser runhidden waituntilterminated
-Filename: "{app}\Companion\VDDSysTray.exe"; Description: "Launch Companion App"; Flags: nowait postinstall skipifsilent; Components: CompanionApp
+Filename: "{app}\Companion\VDDSysTray.exe"; Description: "Launch Companion App"; Flags: nowait postinstall skipifsilent runascurrentuser; Components: CompanionApp
+
 
 [UninstallRun]
 Filename: "{app}\uninstall.bat"; Flags: runhidden
