@@ -11,6 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+       - name: Generate release tag
+        id: generate_tag
+        run: |
+          $releaseTag = (Get-Date).ToString('yy.MM.dd')
+          echo "RELEASE_TAG=$releaseTag" >> $env:GITHUB_ENV
+
       - name: Prepare for testing (x64 only)
         run: |
           if (Test-Path -Path .\testing) {
@@ -18,6 +24,9 @@ jobs:
           } else {
             Write-Error "The 'testing' directory does not exist."
           }
+          (Get-Content "Setup.iss") | 
+            ForEach-Object { $_ -replace '1.0.0', '${{ env.RELEASE_TAG }}' } | 
+            Set-Content "Setup.iss"
         shell: pwsh
 
       - name: Compile Installer
