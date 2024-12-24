@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-       - name: Generate release tag
+      - name: Generate release tag
         id: generate_tag
         run: |
           $releaseTag = (Get-Date).ToString('yy.MM.dd')
