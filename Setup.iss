@@ -29,7 +29,7 @@ BackColor2=$0c8192
 Compression=lzma2/ultra
 DefaultDirName={#InstallPath}
 DefaultGroupName=VDDbyMTT
-LicenseFile=.\LICENSE
+LicenseFile=.\LICENSE.txt
 OutputBaseFilename={#MyAppName}-v{#MyAppVersion}-setup-x64
 OutputDir=.\output
 PrivilegesRequired=admin
@@ -63,8 +63,6 @@ Source: "dependencies\gpulist.txt"; Flags: dontcopy
 Source: "dependencies\install.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dependencies\uninstall.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dependencies\fixxml.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "LICENSE_nefcon.txt"; Flags: dontcopy
-Source: "LICENSE_VDD.txt"; Flags: dontcopy
 Source: "input\Companion\VDDSysTray.exe"; DestDir: "{app}\Companion"; Components: CompanionApp
 Source: "input\scripts\changeres-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\ChangeVDDreslution
 Source: "input\scripts\refreshrate-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\ChangeVDDrefreshrate
@@ -299,8 +297,6 @@ end;
 procedure InitializeWizard();
 begin
   LicenseAfterPage := wpLicense;
-  AddLicensePage('LICENSE_nefcon.txt');
-  AddLicensePage('LICENSE_VDD.txt');
   GPUSelectionPage := CreateCustomPage(LicenseAfterPage, 'Select Primary GPU', 'Choose a GPU to bind to Virtual Display or leave it for automatic selection');
   GPUComboBox := TComboBox.Create(WizardForm);
   GPUComboBox.Parent := GPUSelectionPage.Surface;

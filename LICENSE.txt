@@ -1,6 +1,7 @@
 MIT License
 
-Copyright (c) 2018-2021 Nefarius Software Solutions e.U.
+VDD: Copyright (c) 2024-2025 MikeTheTech
+Nefcon: Copyright (c) 2018-2025 Nefarius Software Solutions e.U.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
