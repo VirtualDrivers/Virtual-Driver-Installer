@@ -176,58 +176,6 @@ begin
   end;
 end;
 
-procedure CheckLicenseAccepted(Sender: TObject);
-begin
-  WizardForm.NextButton.Enabled :=
-    LicenseAcceptedRadioButtons[TComponent(Sender).Tag].Checked;
-end;
-
-procedure LicensePageActivate(Sender: TWizardPage);
-begin
-  CheckLicenseAccepted(LicenseAcceptedRadioButtons[Sender.Tag]);
-end;
-
-function CloneLicenseRadioButton(
-  Page: TWizardPage; Source: TRadioButton): TRadioButton;
-begin
-  Result := TRadioButton.Create(WizardForm);
-  Result.Parent := Page.Surface;
-  Result.Caption := Source.Caption;
-  Result.Left := Source.Left;
-  Result.Top := Source.Top;
-  Result.Width := Source.Width;
-  Result.Height := Source.Height;
-  Result.Anchors := Source.Anchors;
-  Result.OnClick := @CheckLicenseAccepted;
-  Result.Tag := Page.Tag;
-end;
-
-var
-  LicenseAfterPage: Integer;
-
-procedure AddLicensePage(LicenseFileName: string);
-var
-  Idx: Integer;
-  Page: TOutputMsgMemoWizardPage;
-  LicenseFilePath: string;
-  RadioButton: TRadioButton;
-begin
-  Idx := GetArrayLength(LicenseAcceptedRadioButtons);
-  SetArrayLength(LicenseAcceptedRadioButtons, Idx + 1);
-  Page := CreateOutputMsgMemoPage(LicenseAfterPage, SetupMessage(msgWizardLicense),SetupMessage(msgLicenseLabel), SetupMessage(msgLicenseLabel3), '');
-  Page.Tag := Idx;
-  Page.RichEditViewer.Height := WizardForm.LicenseMemo.Height;
-  Page.OnActivate := @LicensePageActivate;
-  ExtractTemporaryFile(LicenseFileName);
-  LicenseFilePath := ExpandConstant('{tmp}\' + LicenseFileName);
-  Page.RichEditViewer.Lines.LoadFromFile(LicenseFilePath);
-  DeleteFile(LicenseFilePath);
-  RadioButton := CloneLicenseRadioButton(Page, WizardForm.LicenseAcceptedRadio);
-  LicenseAcceptedRadioButtons[Idx] := RadioButton;
-  RadioButton := CloneLicenseRadioButton(Page, WizardForm.LicenseNotAcceptedRadio);
-  RadioButton.Checked := True;
-  LicenseAfterPage := Page.ID;
-end;
 
 procedure EnsureFilesAndDirectoryExist();
 var
@@ -293,6 +241,8 @@ begin
   end;
   Result := TRUE;
 end;
+var
+  LicenseAfterPage: Integer;
 
 procedure InitializeWizard();
 begin
