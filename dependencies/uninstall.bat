@@ -11,13 +11,13 @@ if defined vddPath (
     taskkill /F /IM VDDSysTray.exe
     taskkill /F /IM vdd_e-li_d-lo.cmd
     rmdir /s /q "%vddPath%"
-    reg delete "HKLM\SOFTWARE\MikeTheTech\VirtualDisplayDriver" /f >nul 2>&1
 ) else (
     C:\VirtualDisplayDriver\nefconw.exe --remove-device-node --hardware-id ROOT\MttVDD --class-guid 4d36e968-e325-11ce-bfc1-08002be10318
     taskkill /F /IM VDDSysTray.exe
     taskkill /F /IM vdd_e-li_d-lo.cmd
     rmdir /s /q "C:\VirtualDisplayDriver"
 )
+reg delete "HKLM\SOFTWARE\MikeTheTech\VirtualDisplayDriver" /f >nul 2>&1
 rm dir /s /q "%USERPROFILE%\AppData\Local\VDDInstaller"
 exit
 
