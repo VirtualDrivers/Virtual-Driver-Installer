@@ -347,4 +347,4 @@ Filename: "{app}\Companion\VDDSysTray.exe"; Description: "Launch Companion App";
 
 
 [UninstallRun]
-Filename: "{app}\uninstall.bat"; Flags: runhidden
+Filename: "{app}\uninstall.bat"; Parameters: "-installer"; Flags: runhidden
