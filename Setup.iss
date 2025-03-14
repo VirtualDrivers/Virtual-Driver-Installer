@@ -91,7 +91,7 @@ Name: "Scripts\ChangeVDDrefreshrate"; Description: "Adjust the {#MyAppShortName}
 Name: "Scripts\RotateVDD"; Description: "Rotate the {#MyAppShortName} via command line."; Types: full custom 
 Name: "Scripts\ScaleVDD"; Description: "Scale the {#MyAppShortName} via command line."; Types: full custom 
 Name: "Scripts\MakeVDDPrimary"; Description: "PowerShell script to set {#MyAppShortName} as the primary display."; Types: full custom 
-Name: "Scripts\WinPasScript"; Description: "Script to trigger Win+P via command lin.e"; Types: full custom 
+Name: "Scripts\WinPasScript"; Description: "Script to trigger Win+P via command line."; Types: full custom 
 Name: "Scripts\ToggleVDDpower"; Description: "Script to toggle {#MyAppShortName}'s power on or off."; Types: full custom 
 Name: "Scripts\EnLiDiLo"; Description: "Automate enabling the {#MyAppName} on login and disabling on logout"; Types: full custom 
 
