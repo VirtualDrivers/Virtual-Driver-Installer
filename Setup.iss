@@ -65,15 +65,15 @@ Source: "dependencies\fixxml.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "input\ControlApp\VDDControl.exe"; DestDir: "{app}\ControlApp"; Components: ControlApp
 
 [Types]
-Name: "basic"; Description: "Basic install with driver only"; 
+Name: "basic"; Description: "Basic install with driver and control app (recommended)"; 
 Name: "full"; Description: "Complete installation with driver and control app"; 
 Name: "custom"; Description: "Customize which components to install"; Flags: iscustom
-Name: "compact"; Description: "Compact installation with only the driver"
+Name: "compact"; Description: "Compact installation with only the driver (no control app)"
 
 
 [Components]
 Name: "VDD"; Description: "Core functionality of the {#MyAppName}."; Types: full custom basic compact; Flags: fixed
-Name: "ControlApp"; Description: "Control application for managing virtual displays."; Types: full custom
+Name: "ControlApp"; Description: "Control application for managing virtual displays."; Types: full basic custom
 
 [Icons]
 Name: "{group}\VDD Control"; Filename: "{app}\ControlApp\VDDControl.exe"; WorkingDir: "{app}"; Components: ControlApp
