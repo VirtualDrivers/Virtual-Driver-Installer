@@ -1,2 +1,2 @@
-# vdd-innosetupscript
-A repo dedicated to the innosetupscript, with dependencies, inputs and outputs
+# Virtual Display Driver Installer (Source)
+A repo dedicated to the Virtual Display Driver Installer's innosetupscript, with dependencies, inputs and outputs.
