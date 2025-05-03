@@ -2,7 +2,7 @@
 #define MyAppShortName "Virtual Display"
 #define MyAppPublisher "VirtualDisplay"
 #define MyAppVersion "1.0.0"
-#define MyAppSupportURL "https://github.com/itsmikethetech/Virtual-Display-Driver/issues"
+#define MyAppSupportURL "https://github.com/VirtualDrivers/Virtual-Display-Driver/issues"
 #define MyAppURL "https://vdd.mikethetech.com"
 #define InstallPath "C:\VirtualDisplayDriver"
 #define AppId "VirtualDisplayDriver"
@@ -19,7 +19,7 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppSupportURL}
 AppUpdatesURL={#MyAppURL}
 AppVersion={#MyAppVersion}
-AppComments=Provides Virtual Displays, Viewer, Control Application, and PowerShell scripts
+AppComments=Provides Virtual Displays and Control Application
 AppContact=Contact us on at discord.mikethetech.com
 AppCopyright=Copyright (C) 2022-2024 MikeTheTech
 ArchitecturesInstallIn64BitMode=x64compatible
@@ -47,10 +47,8 @@ AllowRootDirectory=True
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Dirs]
-Name: "{app}\scripts"; Permissions: everyone-full
-Name: "{app}\Companion"; Permissions: everyone-full
-Name: "{app}\scripts\onoff_at_loginout"; Permissions: everyone-full
-Name: "{localappdata}\VDDInstaller"; Permissions: everyone-full
+Name: "{app}"; Permissions: everyone-full
+Name: "{app}\ControlApp"; Permissions: everyone-full
 
 [Files]
 Source: "input\MttVDD.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: VDD
@@ -63,40 +61,21 @@ Source: "dependencies\gpulist.txt"; Flags: dontcopy
 Source: "dependencies\install.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dependencies\uninstall.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dependencies\fixxml.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "input\Companion\VDDSysTray.exe"; DestDir: "{app}\Companion"; Components: CompanionApp
-Source: "input\scripts\changeres-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\ChangeVDDreslution
-Source: "input\scripts\refreshrate-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\ChangeVDDrefreshrate
-Source: "input\scripts\rotate-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\RotateVDD
-Source: "input\scripts\scale-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\ScaleVDD
-Source: "input\scripts\primary-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\MakeVDDPrimary
-Source: "input\scripts\winp-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\WinPasScript
-Source: "input\scripts\toggle-VDD.ps1"; DestDir: "{app}\scripts"; Components: Scripts\ToggleVDDpower
-Source: "input\scripts\onoff_at_loginout\enable_at_logon_disable_at_logoff.reg"; DestDir: "{app}\scripts\onoff_at_loginout"; Components: Scripts\EnLiDiLo
-Source: "input\scripts\onoff_at_loginout\psscripts.ini"; DestDir: "{app}\scripts\onoff_at_loginout"; Components: Scripts\EnLiDiLo
-Source: "input\scripts\onoff_at_loginout\vdd_e-li_d-lo.cmd"; DestDir: "{app}\scripts\onoff_at_loginout"; Components: Scripts\EnLiDiLo
+Source: "\vdd-innosetupscript\input\ControlApp\VDD Control.exe"; DestDir: "{app}\ControlApp"; Components: ControlApp
 
 [Types]
-Name: "basic"; Description: "Basic install with driver and companion app"; 
-Name: "full"; Description: "Complete installation with all components"
+Name: "basic"; Description: "Basic install with driver only"; 
+Name: "full"; Description: "Complete installation with driver and control app"; 
 Name: "custom"; Description: "Customize which components to install"; Flags: iscustom
 Name: "compact"; Description: "Compact installation with only the driver"
 
 
 [Components]
-Name: "VDD"; Description: "Core functionality of the {#MyAppName}."; Types: full custom compact basic; Flags: fixed
-Name: "CompanionApp"; Description: "System tray application to control the {#MyAppName}."; Types: full custom basic
-Name: "Scripts"; Description: "Install modules required for all scripts."; Types: full custom 
-Name: "Scripts\ChangeVDDreslution"; Description: "Change the {#MyAppShortName}'s resolution via command line."; Types: full custom 
-Name: "Scripts\ChangeVDDrefreshrate"; Description: "Adjust the {#MyAppShortName}'s refresh rate via command line."; Types: full custom 
-Name: "Scripts\RotateVDD"; Description: "Rotate the {#MyAppShortName} via command line."; Types: full custom 
-Name: "Scripts\ScaleVDD"; Description: "Scale the {#MyAppShortName} via command line."; Types: full custom 
-Name: "Scripts\MakeVDDPrimary"; Description: "PowerShell script to set {#MyAppShortName} as the primary display."; Types: full custom 
-Name: "Scripts\WinPasScript"; Description: "Script to trigger Win+P via command lin.e"; Types: full custom 
-Name: "Scripts\ToggleVDDpower"; Description: "Script to toggle {#MyAppShortName}'s power on or off."; Types: full custom 
-Name: "Scripts\EnLiDiLo"; Description: "Automate enabling the {#MyAppName} on login and disabling on logout"; Types: full custom 
+Name: "VDD"; Description: "Core functionality of the {#MyAppName}."; Types: full custom basic compact; Flags: fixed
+Name: "ControlApp"; Description: "Control application for managing virtual displays."; Types: full custom
 
 [Icons]
-Name: "{group}\Companion"; Filename: "{app}\Companion\VDDSysTray.exe"; WorkingDir: "{app}"
+Name: "{group}\VDD Control"; Filename: "{app}\ControlApp\VDD Control.exe"; WorkingDir: "{app}"; Components: ControlApp
 Name: "{group}\Visit Homepage"; Filename: "{#MyAppURL}"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
 
@@ -176,58 +155,6 @@ begin
   end;
 end;
 
-procedure CheckLicenseAccepted(Sender: TObject);
-begin
-  WizardForm.NextButton.Enabled :=
-    LicenseAcceptedRadioButtons[TComponent(Sender).Tag].Checked;
-end;
-
-procedure LicensePageActivate(Sender: TWizardPage);
-begin
-  CheckLicenseAccepted(LicenseAcceptedRadioButtons[Sender.Tag]);
-end;
-
-function CloneLicenseRadioButton(
-  Page: TWizardPage; Source: TRadioButton): TRadioButton;
-begin
-  Result := TRadioButton.Create(WizardForm);
-  Result.Parent := Page.Surface;
-  Result.Caption := Source.Caption;
-  Result.Left := Source.Left;
-  Result.Top := Source.Top;
-  Result.Width := Source.Width;
-  Result.Height := Source.Height;
-  Result.Anchors := Source.Anchors;
-  Result.OnClick := @CheckLicenseAccepted;
-  Result.Tag := Page.Tag;
-end;
-
-var
-  LicenseAfterPage: Integer;
-
-procedure AddLicensePage(LicenseFileName: string);
-var
-  Idx: Integer;
-  Page: TOutputMsgMemoWizardPage;
-  LicenseFilePath: string;
-  RadioButton: TRadioButton;
-begin
-  Idx := GetArrayLength(LicenseAcceptedRadioButtons);
-  SetArrayLength(LicenseAcceptedRadioButtons, Idx + 1);
-  Page := CreateOutputMsgMemoPage(LicenseAfterPage, SetupMessage(msgWizardLicense),SetupMessage(msgLicenseLabel), SetupMessage(msgLicenseLabel3), '');
-  Page.Tag := Idx;
-  Page.RichEditViewer.Height := WizardForm.LicenseMemo.Height;
-  Page.OnActivate := @LicensePageActivate;
-  ExtractTemporaryFile(LicenseFileName);
-  LicenseFilePath := ExpandConstant('{tmp}\' + LicenseFileName);
-  Page.RichEditViewer.Lines.LoadFromFile(LicenseFilePath);
-  DeleteFile(LicenseFilePath);
-  RadioButton := CloneLicenseRadioButton(Page, WizardForm.LicenseAcceptedRadio);
-  LicenseAcceptedRadioButtons[Idx] := RadioButton;
-  RadioButton := CloneLicenseRadioButton(Page, WizardForm.LicenseNotAcceptedRadio);
-  RadioButton.Checked := True;
-  LicenseAfterPage := Page.ID;
-end;
 
 procedure EnsureFilesAndDirectoryExist();
 var
@@ -293,6 +220,8 @@ begin
   end;
   Result := TRUE;
 end;
+var
+  LicenseAfterPage: Integer;
 
 procedure InitializeWizard();
 begin
@@ -393,8 +322,8 @@ Root: HKLM; Subkey: "SOFTWARE\MikeTheTech\VirtualDisplayDriver"; ValueType: stri
 
 [Run]
 Filename: "{app}\install.bat"; Parameters: "{code:MergePar}"; WorkingDir: "{app}"; Flags: runascurrentuser runhidden waituntilterminated
-Filename: "{app}\Companion\VDDSysTray.exe"; Description: "Launch Companion App"; Flags: nowait postinstall skipifsilent runascurrentuser; Components: CompanionApp
+Filename: "{app}\ControlApp\VDD Control.exe"; Description: "Launch VDD Control"; Flags: nowait postinstall skipifsilent runascurrentuser; Components: ControlApp
 
 
 [UninstallRun]
-Filename: "{app}\uninstall.bat"; Flags: runhidden
+Filename: "{app}\uninstall.bat"; Parameters: "-installer"; Flags: runhidden
