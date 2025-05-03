@@ -42,6 +42,7 @@ WizardStyle=modern
 FlatComponentsList=yes
 ShowTasksTreeLines=True
 AllowRootDirectory=True
+DisableDirPage=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -322,7 +323,7 @@ Root: HKLM; Subkey: "SOFTWARE\MikeTheTech\VirtualDisplayDriver"; ValueType: stri
 
 [Run]
 Filename: "{app}\install.bat"; Parameters: "{code:MergePar}"; WorkingDir: "{app}"; Flags: runascurrentuser runhidden waituntilterminated
-Filename: "{app}\ControlApp\VDD Control.exe"; Description: "Launch VDD Control"; Flags: nowait postinstall skipifsilent runascurrentuser; Components: ControlApp
+Filename: "{app}\ControlApp\VDDControl.exe"; Description: "Launch VDD Control"; Flags: nowait postinstall skipifsilent runascurrentuser; Components: ControlApp
 
 
 [UninstallRun]
