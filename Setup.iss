@@ -61,7 +61,7 @@ Source: "dependencies\gpulist.txt"; Flags: dontcopy
 Source: "dependencies\install.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dependencies\uninstall.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dependencies\fixxml.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "\vdd-innosetupscript\input\ControlApp\VDDControl.exe"; DestDir: "{app}\ControlApp"; Components: ControlApp
+Source: "input\ControlApp\VDDControl.exe"; DestDir: "{app}\ControlApp"; Components: ControlApp
 
 [Types]
 Name: "basic"; Description: "Basic install with driver only"; 
