@@ -61,7 +61,7 @@ Source: "dependencies\gpulist.txt"; Flags: dontcopy
 Source: "dependencies\install.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dependencies\uninstall.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dependencies\fixxml.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "\vdd-innosetupscript\input\ControlApp\VDD Control.exe"; DestDir: "{app}\ControlApp"; Components: ControlApp
+Source: "\vdd-innosetupscript\input\ControlApp\VDDControl.exe"; DestDir: "{app}\ControlApp"; Components: ControlApp
 
 [Types]
 Name: "basic"; Description: "Basic install with driver only"; 
@@ -75,7 +75,7 @@ Name: "VDD"; Description: "Core functionality of the {#MyAppName}."; Types: full
 Name: "ControlApp"; Description: "Control application for managing virtual displays."; Types: full custom
 
 [Icons]
-Name: "{group}\VDD Control"; Filename: "{app}\ControlApp\VDD Control.exe"; WorkingDir: "{app}"; Components: ControlApp
+Name: "{group}\VDD Control"; Filename: "{app}\ControlApp\VDDControl.exe"; WorkingDir: "{app}"; Components: ControlApp
 Name: "{group}\Visit Homepage"; Filename: "{#MyAppURL}"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
 
