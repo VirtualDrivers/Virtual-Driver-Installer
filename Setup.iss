@@ -168,10 +168,14 @@ var
 begin
   // Extract necessary files to temp directory
   if not ExtractTemporaryFile('getlist.bat') then
+  begin
     Log('Warning: Failed to extract getlist.bat to temporary directory');
+  end;
     
   if not ExtractTemporaryFile('gpulist.txt') then
+  begin
     Log('Warning: Failed to extract gpulist.txt to temporary directory');
+  end;
   
   // Create installer temp directory if it doesn't exist
   TempDir := ExpandConstant('{#InstallerTempDir}');
