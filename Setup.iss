@@ -167,13 +167,15 @@ var
   FileCopyResult: Boolean;
 begin
   // Extract necessary files to temp directory
-  if not ExtractTemporaryFile('getlist.bat') then
-  begin
+  try
+    ExtractTemporaryFile('getlist.bat');
+  except
     Log('Warning: Failed to extract getlist.bat to temporary directory');
   end;
     
-  if not ExtractTemporaryFile('gpulist.txt') then
-  begin
+  try
+    ExtractTemporaryFile('gpulist.txt');
+  except
     Log('Warning: Failed to extract gpulist.txt to temporary directory');
   end;
   
