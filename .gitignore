@@ -4,3 +4,6 @@ input/MttVDD.dll
 input/MttVDD.inf
 input/mttvdd.cat
 input/vdd_settings.xml
+
+**/.claude/settings.local.json
+CLAUDE.md
