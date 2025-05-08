@@ -359,13 +359,9 @@ begin
 end;
 
 function GetInstallDate(Param: string): string;
-var
-  Year, Month, Day: Word;
 begin
-  // Get current date
-  DecodeDate(Date, Year, Month, Day);
-  // Format as yyyy-mm-dd
-  Result := Format('%.4d-%.2d-%.2d', [Year, Month, Day]);
+  // Format as yyyy-mm-dd using GetDateTimeString
+  Result := GetDateTimeString('yyyy-mm-dd', '-', '-');
 end;
 
 function MergePar(Param: string): string;
