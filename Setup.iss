@@ -198,7 +198,7 @@ begin
   
   if FileExists(Src) then
   begin
-    if not FileExists(Dest) or not CompareFileDateTime(Src, Dest, 0) then
+    if not FileExists(Dest) then
     begin
       FileCopyResult := FileCopy(Src, Dest, True);
       if not FileCopyResult then
@@ -214,7 +214,7 @@ begin
   
   if FileExists(Src) then
   begin
-    if not FileExists(Dest) or not CompareFileDateTime(Src, Dest, 0) then
+    if not FileExists(Dest) then
     begin
       FileCopyResult := FileCopy(Src, Dest, True);
       if not FileCopyResult then
