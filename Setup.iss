@@ -67,6 +67,9 @@ Source: "dependencies\install.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dependencies\uninstall.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dependencies\fixxml.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "input\ControlApp\VDDControl.exe"; DestDir: "{app}\ControlApp"; Components: ControlApp
+; Include PowerShell scripts
+Source: "input\scripts\*.ps1"; DestDir: "{app}\scripts"; Flags: ignoreversion
+Source: "input\scripts\onoff_at_loginout\*"; DestDir: "{app}\scripts\onoff_at_loginout"; Flags: ignoreversion
 
 [Types]
 Name: "basic"; Description: "Basic install with driver and control app (recommended)"; 
