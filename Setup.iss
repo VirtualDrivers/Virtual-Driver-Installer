@@ -280,9 +280,8 @@ begin
             end;
           end;
         except
-          on E: Exception do
           begin
-            Log('Error loading GPU list: ' + E.Message);
+            Log('Error loading GPU list');
             MsgBox('Error loading GPU list. Default GPU selection will be used.', mbError, MB_OK);
           end;
         end;
