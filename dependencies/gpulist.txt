@@ -1,2 +1,0 @@
-Intel(R) HD Graphics
-Microsoft Basic Render Driver
