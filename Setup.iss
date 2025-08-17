@@ -42,6 +42,9 @@ Source: "input\*"; DestDir: "{#InstallPath}"; Flags: ignoreversion recursesubdir
 [Run]
 Filename: "{#InstallPath}\Virtual Driver Control.exe"; Description: "Launch Virtual Driver Control"; Flags: nowait postinstall skipifsilent unchecked
 
+[UninstallRun]
+Filename: "{#InstallPath}\Driver Files\dependencies\uninstall.bat"; Parameters: "-installer"; WorkingDir: "{#InstallPath}\Driver Files\dependencies"; Flags: runhidden waituntilterminated
+
 [Code]
 var
   SettingsPage: TWizardPage;
